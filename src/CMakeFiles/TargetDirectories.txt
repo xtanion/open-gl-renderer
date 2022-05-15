@@ -1,0 +1,3 @@
+/home/shivam/Programming/OpenGLprojects/pyramid/src/CMakeFiles/pyramid.dir
+/home/shivam/Programming/OpenGLprojects/pyramid/src/CMakeFiles/edit_cache.dir
+/home/shivam/Programming/OpenGLprojects/pyramid/src/CMakeFiles/rebuild_cache.dir

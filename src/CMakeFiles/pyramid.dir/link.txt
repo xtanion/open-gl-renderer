@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/pyramid.dir/main.cpp.o CMakeFiles/pyramid.dir/glad.c.o CMakeFiles/pyramid.dir/shaderClass.cpp.o CMakeFiles/pyramid.dir/VBO.cpp.o CMakeFiles/pyramid.dir/EBO.cpp.o CMakeFiles/pyramid.dir/VAO.cpp.o CMakeFiles/pyramid.dir/stb.cpp.o -o pyramid  -lGL -lglfw -ldl 

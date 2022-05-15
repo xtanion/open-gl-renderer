@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/square.dir/main.cpp.o CMakeFiles/square.dir/glad.c.o CMakeFiles/square.dir/shaderClass.cpp.o -o square  -lGL -lglfw -ldl 
