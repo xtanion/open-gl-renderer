@@ -54,16 +54,16 @@ RM = /usr/local/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/shivam/Programming/OpenGLprojects/pyramid
+CMAKE_SOURCE_DIR = /home/shivam/Programming/OpenGLprojects/render
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/shivam/Programming/OpenGLprojects/pyramid/src
+CMAKE_BINARY_DIR = /home/shivam/Programming/OpenGLprojects/render/src
 
 #=============================================================================
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
-all: CMakeFiles/pyramid.dir/all
+all: CMakeFiles/render.dir/all
 .PHONY : all
 
 # The main recursive "preinstall" target.
@@ -71,34 +71,34 @@ preinstall:
 .PHONY : preinstall
 
 # The main recursive "clean" target.
-clean: CMakeFiles/pyramid.dir/clean
+clean: CMakeFiles/render.dir/clean
 .PHONY : clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/pyramid.dir
+# Target rules for target CMakeFiles/render.dir
 
 # All Build rule for target.
-CMakeFiles/pyramid.dir/all:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/pyramid.dir/build.make CMakeFiles/pyramid.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/pyramid.dir/build.make CMakeFiles/pyramid.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/shivam/Programming/OpenGLprojects/pyramid/src/CMakeFiles --progress-num=1,2,3,4,5,6,7,8 "Built target pyramid"
-.PHONY : CMakeFiles/pyramid.dir/all
+CMakeFiles/render.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/render.dir/build.make CMakeFiles/render.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/render.dir/build.make CMakeFiles/render.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/shivam/Programming/OpenGLprojects/render/src/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10 "Built target render"
+.PHONY : CMakeFiles/render.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/pyramid.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/shivam/Programming/OpenGLprojects/pyramid/src/CMakeFiles 8
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/pyramid.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/shivam/Programming/OpenGLprojects/pyramid/src/CMakeFiles 0
-.PHONY : CMakeFiles/pyramid.dir/rule
+CMakeFiles/render.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/shivam/Programming/OpenGLprojects/render/src/CMakeFiles 10
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/render.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/shivam/Programming/OpenGLprojects/render/src/CMakeFiles 0
+.PHONY : CMakeFiles/render.dir/rule
 
 # Convenience name for target.
-pyramid: CMakeFiles/pyramid.dir/rule
-.PHONY : pyramid
+render: CMakeFiles/render.dir/rule
+.PHONY : render
 
 # clean rule for target.
-CMakeFiles/pyramid.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/pyramid.dir/build.make CMakeFiles/pyramid.dir/clean
-.PHONY : CMakeFiles/pyramid.dir/clean
+CMakeFiles/render.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/render.dir/build.make CMakeFiles/render.dir/clean
+.PHONY : CMakeFiles/render.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

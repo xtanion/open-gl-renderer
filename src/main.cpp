@@ -18,8 +18,8 @@
 // Camera
 #include "../headers/Camera.h"
 
-const int width = 800;
-const int height = 800;
+const int width = 960;
+const int height = 540;
 
 int main(){
 
@@ -108,20 +108,21 @@ int main(){
     // Swap the back buffer with the front buffer
     glfwSwapBuffers(window);
 
-    // using uniform to scale
-    GLuint  uniID = glGetUniformLocation(shaderProgram.ID, "scale");
-    float scale = 1.5f, sf = 0.01f;
+//    GLuint  uniID = glGetUniformLocation(shaderProgram.ID, "scale");
 
     // Loading the image
     Texture objTex("../resources/Textures/skybox.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
     objTex.texUnit(shaderProgram, "tex0", 0);
 
-    // for rotation of object
-    float rotation = 0.0f;
-    double prevTime = glfwGetTime();
-
     // Fix for the Texture glitch
     glEnable(GL_DEPTH_TEST);
+
+    glEnable(GL_CULL_FACE);
+
+    // create the camera  object
+    Camera camera(width, height, glm::vec3(0.0f, 0.0f, 5.0f));
+    float fov = 45.0f;
+    glfwSetScrollCallback(window, Camera::ScrollCallback);
 
     while (!glfwWindowShouldClose(window))
     {
@@ -130,37 +131,10 @@ int main(){
 
         shaderProgram.Activate();
 
-        glm::mat4 model = glm::mat4 (1.0f);
-        glm::mat4 view = glm::mat4 (1.0f);
-        glm::mat4 proj = glm::mat4 (1.0f);
+        camera.KeyInputs(window);
+        camera.MouseInputs(window);
+        camera.Matrix(fov, 0.1f, 100.0f, shaderProgram, "camMatrix");
 
-        double currentTime = glfwGetTime();
-        if (currentTime-prevTime >= 1/60){
-            rotation += 1.5f;
-            prevTime = currentTime;
-        }
-
-        model = glm::rotate(model, glm::radians(rotation),glm::vec3(0.0f, 1.0f, 0.0f));
-        view = glm::translate(view, glm::vec3(0.0f, -0.2f, -4.0f));
-        proj = glm::perspective(glm::radians(45.0f), (float)width/height, 0.1f, 100.0f);
-
-        // model, view & proj from vetex shader
-        // Outputs the matrices into the Vertex Shader
-        int modelLoc = glGetUniformLocation(shaderProgram.ID, "model");
-        glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-
-        int viewLoc = glGetUniformLocation(shaderProgram.ID, "view");
-        glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
-
-        int projLoc = glGetUniformLocation(shaderProgram.ID, "proj");
-        glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(proj));
-
-//        if (scale >= 1.0f || scale <= 0.5f){
-//            sf*=-1;
-//        }
-//        scale += sf;
-
-        glUniform1f(uniID, scale);
         objTex.Bind();
 
         VAO_1.Bind();
