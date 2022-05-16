@@ -3,7 +3,7 @@
 - cd into `src`
 - install cmake
 ```
-cmake .. (once)
+cmake ..
 make
-./open-gl-renderer
+./render
 ```
