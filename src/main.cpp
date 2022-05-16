@@ -18,55 +18,12 @@
 // Camera
 #include "../headers/Camera.h"
 
-const int width = 960;
-const int height = 540;
+const int width = 1920;
+const int height = 1080;
 
 int main(){
 
-
-    GLfloat vertices[] = {
-            //  vertices        color values   tex coord
-            -0.5, -0.5,  0.5,  1.0, 0.0, 0.0,  1.0/4.0, 1.0/3.0, //
-             0.5, -0.5,  0.5,  0.0, 1.0, 0.0,  2.0/4.0, 1.0/3.0, // Front Face
-             0.5,  0.5,  0.5,  0.0, 0.0, 1.0,  2.0/4.0, 2.0/3.0, //
-            -0.5,  0.5,  0.5,  1.0, 1.0, 1.0,  1.0/4.0, 2.0/3.0, //
-
-            -0.5, -0.5, -0.5,  1.0, 0.0, 0.0,  4.0/4.0, 1.0/3.0, //
-             0.5, -0.5, -0.5,  0.0, 1.0, 0.0,  3.0/4.0, 1.0/3.0, // Back Face
-             0.5,  0.5, -0.5,  0.0, 0.0, 1.0,  3.0/4.0, 2.0/3.0, //
-            -0.5,  0.5, -0.5,  1.0, 1.0, 1.0,  4.0/4.0, 2.0/3.0, //
-
-            0.5, -0.5, -0.5,  1.0, 0.0, 0.0,  3.0/4.0, 1.0/3.0, //
-            0.5,  0.5, -0.5,  0.0, 1.0, 0.0,  3.0/4.0, 2.0/3.0, // Right Face
-            0.5,  0.5,  0.5,  0.0, 0.0, 1.0,  2.0/4.0, 2.0/3.0, //
-            0.5, -0.5,  0.5,  1.0, 1.0, 1.0,  2.0/4.0, 1.0/3.0, //
-
-            -0.5,  0.5, -0.5,  1.0, 0.0, 0.0,  0.0/4.0, 2.0/3.0, //
-            -0.5, -0.5, -0.5,  0.0, 1.0, 0.0,  0.0/4.0, 1.0/3.0, // Left Face
-            -0.5, -0.5,  0.5,  0.0, 0.0, 1.0,  1.0/4.0, 1.0/3.0, //
-            -0.5,  0.5,  0.5,  1.0, 1.0, 1.0,  1.0/4.0, 2.0/3.0, //
-
-            -0.5, -0.5, -0.5,  1.0, 0.0, 0.0,  1.0/4.0, 0.0, //
-             0.5, -0.5, -0.5,  0.0, 1.0, 0.0,  2.0/4.0, 0.0, // Bottom Face
-             0.5, -0.5,  0.5,  0.0, 0.0, 1.0,  2.0/4.0, 1.0/3.0, //
-            -0.5, -0.5,  0.5,  1.0, 1.0, 1.0,  1.0/4.0, 1.0/3.0, //
-
-             0.5,  0.5, -0.5,  1.0, 0.0, 0.0,  1.0/4.0, 2.0/3.0, //
-            -0.5,  0.5, -0.5,  0.0, 1.0, 0.0,  1.0/4.0, 3.0/3.0, // Top face
-            -0.5,  0.5,  0.5,  0.0, 0.0, 1.0,  2.0/4.0, 3.0/3.0, //
-             0.5,  0.5,  0.5,  1.0, 1.0, 1.0,  2.0/4.0, 2.0/3.0  //
-    };
-
-    GLuint indices[] = {
-            0,  1,  2,  2,  3,  0,
-            4,  5,  6,  6,  7,  4,
-            8,  9, 10, 10, 11,  8,
-            12, 13, 14, 14, 15, 12,
-            16, 17, 18, 18, 19, 16,
-            20, 21, 22, 22, 23, 20
-    };
-
-
+    // Opening the window part ---------------------------------------------------------
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -85,9 +42,71 @@ int main(){
     gladLoadGL();
     glViewport(0, 0, width, height);
 
+    //----------------------------------------------------------------------------------
+    // Define vertices for our object
+    GLfloat vertices[] = { //     COORDINATES     /        COLORS          /    TexCoord   /        NORMALS       //
+            -0.5f, 0.0f,  0.5f,     0.83f, 0.70f, 0.44f, 	 0.0f, 0.0f,      0.0f, -1.0f, 0.0f, // Bottom side
+            -0.5f, 0.0f, -0.5f,     0.83f, 0.70f, 0.44f,	 0.0f, 5.0f,      0.0f, -1.0f, 0.0f, // Bottom side
+            0.5f, 0.0f, -0.5f,     0.83f, 0.70f, 0.44f,	 5.0f, 5.0f,      0.0f, -1.0f, 0.0f, // Bottom side
+            0.5f, 0.0f,  0.5f,     0.83f, 0.70f, 0.44f,	 5.0f, 0.0f,      0.0f, -1.0f, 0.0f, // Bottom side
+
+            -0.5f, 0.0f,  0.5f,     0.83f, 0.70f, 0.44f, 	 0.0f, 0.0f,     -0.8f, 0.5f,  0.0f, // Left Side
+            -0.5f, 0.0f, -0.5f,     0.83f, 0.70f, 0.44f,	 5.0f, 0.0f,     -0.8f, 0.5f,  0.0f, // Left Side
+            0.0f, 0.8f,  0.0f,     0.92f, 0.86f, 0.76f,	 2.5f, 5.0f,     -0.8f, 0.5f,  0.0f, // Left Side
+
+            -0.5f, 0.0f, -0.5f,     0.83f, 0.70f, 0.44f,	 5.0f, 0.0f,      0.0f, 0.5f, -0.8f, // Non-facing side
+            0.5f, 0.0f, -0.5f,     0.83f, 0.70f, 0.44f,	 0.0f, 0.0f,      0.0f, 0.5f, -0.8f, // Non-facing side
+            0.0f, 0.8f,  0.0f,     0.92f, 0.86f, 0.76f,	 2.5f, 5.0f,      0.0f, 0.5f, -0.8f, // Non-facing side
+
+            0.5f, 0.0f, -0.5f,     0.83f, 0.70f, 0.44f,	 0.0f, 0.0f,      0.8f, 0.5f,  0.0f, // Right side
+            0.5f, 0.0f,  0.5f,     0.83f, 0.70f, 0.44f,	 5.0f, 0.0f,      0.8f, 0.5f,  0.0f, // Right side
+            0.0f, 0.8f,  0.0f,     0.92f, 0.86f, 0.76f,	 2.5f, 5.0f,      0.8f, 0.5f,  0.0f, // Right side
+
+            0.5f, 0.0f,  0.5f,     0.83f, 0.70f, 0.44f,	 5.0f, 0.0f,      0.0f, 0.5f,  0.8f, // Facing side
+            -0.5f, 0.0f,  0.5f,     0.83f, 0.70f, 0.44f, 	 0.0f, 0.0f,      0.0f, 0.5f,  0.8f, // Facing side
+            0.0f, 0.8f,  0.0f,     0.92f, 0.86f, 0.76f,	 2.5f, 5.0f,      0.0f, 0.5f,  0.8f  // Facing side
+    };
+
+    GLuint indices[] = {
+
+            0, 1, 2, // Bottom side
+            0, 2, 3, // Bottom side
+            4, 6, 5, // Left side
+            7, 9, 8, // Non-facing side
+            10, 12, 11, // Right side
+            13, 15, 14 // Facing side
+    };
+
+    GLfloat lightVertices[] = {
+            -0.1f, -0.1f,  0.1f,
+            -0.1f, -0.1f, -0.1f,
+            0.1f, -0.1f, -0.1f,
+            0.1f, -0.1f,  0.1f,
+            -0.1f,  0.1f,  0.1f,
+            -0.1f,  0.1f, -0.1f,
+            0.1f,  0.1f, -0.1f,
+            0.1f,  0.1f,  0.1f
+    };
+
+    GLuint lightIndices[] =
+            {
+                    0, 1, 2,
+                    0, 2, 3,
+                    0, 4, 7,
+                    0, 7, 3,
+                    3, 7, 6,
+                    3, 6, 2,
+                    2, 6, 5,
+                    2, 5, 1,
+                    1, 5, 4,
+                    1, 4, 0,
+                    4, 5, 6,
+                    4, 6, 7
+            };
+
+    //----------------------------------------------------------------------------------
     // link shaders to shader program
     Shader shaderProgram("../resources/default.vert", "../resources/default.frag");
-
     // VAO, VBO & EBO
     VAO VAO_1;
     VAO_1.Bind();
@@ -95,54 +114,98 @@ int main(){
     VBO VBO_1(vertices, sizeof(vertices));
     EBO EBO_1(indices, sizeof(indices));
 
-    VAO_1.LinkAttrib(VBO_1, 0, 3, GL_FLOAT, 8*sizeof(float ), (void*)0);
-    VAO_1.LinkAttrib(VBO_1, 1, 3, GL_FLOAT, 8*sizeof(float ), (void*)(3*sizeof(float)));
-    VAO_1.LinkAttrib(VBO_1, 2, 2, GL_FLOAT, 8*sizeof(float ), (void*)(6*sizeof(float)));
+    VAO_1.LinkAttrib(VBO_1, 0, 3, GL_FLOAT, 11*sizeof(float ), (void*)0);
+    VAO_1.LinkAttrib(VBO_1, 1, 3, GL_FLOAT, 11*sizeof(float ), (void*)(3*sizeof(float)));
+    VAO_1.LinkAttrib(VBO_1, 2, 2, GL_FLOAT, 11*sizeof(float ), (void*)(6*sizeof(float)));
+    VAO_1.LinkAttrib(VBO_1, 3, 3, GL_FLOAT, 11 * sizeof(float), (void*)(8 * sizeof(float)));
 
     VAO_1.Unbind();
     VBO_1.Unbind();
     EBO_1.Unbind();
 
-    glClearColor(0.1f, 0.2f, 0.3f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
-    // Swap the back buffer with the front buffer
-    glfwSwapBuffers(window);
+    GLint scaleID = glGetUniformLocation(shaderProgram.ID, "scale");
 
-//    GLuint  uniID = glGetUniformLocation(shaderProgram.ID, "scale");
+    // Light Source --------------------------------------------------------------------
 
-    // Loading the image
-    Texture objTex("../resources/Textures/skybox.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
+    Shader lightShader("../resources/light.vert", "../resources/light.frag");
+    VAO lightVAO;
+    lightVAO.Bind();
+
+    VBO lightVBO(lightVertices, sizeof(lightVertices));
+    EBO lightEBO(lightIndices, sizeof(lightIndices));
+
+    lightVAO.LinkAttrib(lightVBO, 0, 3, GL_FLOAT, 3*sizeof(float), (void*)0);
+
+    lightVAO.Unbind();
+    lightVBO.Unbind();
+    lightEBO.Unbind();
+
+    // --------------------------------------------------------------------------------
+    // light source & object-----------------------------------------------------------
+
+    glm::vec4 lightColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+    glm::vec3 lightPos = glm::vec3 (0.0f, 1.3f, 0.0f);
+    glm::mat4 lightModel = glm::mat4(1.0f);
+    lightModel = glm::translate(lightModel, lightPos);
+
+    glm::vec3 objPos = glm::vec3 (0.0f, 0.0f, 0.0f);
+    glm::mat4 objModel = glm::mat4 (1.0f);
+    objModel = glm::translate(objModel, objPos);
+
+    lightShader.Activate();
+    glUniformMatrix4fv(glGetUniformLocation(lightShader.ID, "model"), 1, GL_FALSE, glm::value_ptr(lightModel));
+    glUniform4f(glGetUniformLocation(lightShader.ID, "lightColor"), lightColor.x, lightColor.y, lightColor.z, lightColor.w);
+    shaderProgram.Activate();
+    glUniformMatrix4fv(glGetUniformLocation(shaderProgram.ID, "model"), 1, GL_FALSE, glm::value_ptr(objModel));
+    glUniform4f(glGetUniformLocation(shaderProgram.ID, "lightColor"), lightColor.x, lightColor.y, lightColor.z, lightColor.w);
+    glUniform3f(glGetUniformLocation(shaderProgram.ID, "lightPos"), lightPos.x, lightPos.y, lightPos.z);
+
+    // Texture ------------------------------------------------------------------------
+    Texture objTex("../resources/Textures/wall.jpg", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGB, GL_UNSIGNED_BYTE);
     objTex.texUnit(shaderProgram, "tex0", 0);
 
     // Fix for the Texture glitch
     glEnable(GL_DEPTH_TEST);
 
-    glEnable(GL_CULL_FACE);
-
-    // create the camera  object
-    Camera camera(width, height, glm::vec3(0.0f, 0.0f, 5.0f));
-    float fov = 45.0f;
+    // --------------------------------------------------------------------------------
+    // Camera--------------------------------------------------------------------------
+    // create the Camera object
+    Camera camera(width, height, glm::vec3(0.0f, 0.5f, 2.5f));
+    float fov = 85.0f;
+    // Scrolling Callback (todo: to be implemented)
     glfwSetScrollCallback(window, Camera::ScrollCallback);
 
     while (!glfwWindowShouldClose(window))
     {
-        glClearColor(0.1f, 0.2f, 0.3f, 1.0f);
+        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        shaderProgram.Activate();
-
+        // Camera Handling
         camera.KeyInputs(window);
         camera.MouseInputs(window);
-        camera.Matrix(fov, 0.1f, 100.0f, shaderProgram, "camMatrix");
+        camera.UpdateMatrix(fov, 0.1f, 100.0f);
 
+        shaderProgram.Activate();
+        // Exports the camera Position to the Fragment Shader for specular lighting
+        camera.Matrix(shaderProgram, "camMatrix");
+
+        glUniform1f(scaleID, 0.5);
         objTex.Bind();
-
         VAO_1.Bind();
+
+        // Specular lighting
+        glUniform3f(glGetUniformLocation(shaderProgram.ID, "camPos"), camera.camPosition.x, camera.camPosition.y, camera.camPosition.z);
 
         // while drawing, we must provide opengl hint on how to render (line, points,
         // or fill with triangles) these points, this is called "primitives".
-        // They are of following types: GL_POINT, GL_TRIANGLE, GL_LINE_STRIP
         glDrawElements(GL_TRIANGLES, sizeof(indices)/ sizeof(int), GL_UNSIGNED_INT, 0);
+
+        lightShader.Activate();
+        camera.Matrix(lightShader, "camMatrix");
+        lightVAO.Bind();
+        glDrawElements(GL_TRIANGLES, sizeof(lightIndices)/ sizeof(int), GL_UNSIGNED_INT, 0);
+
+        // Swap back buffer with the front buffer
         glfwSwapBuffers(window);
         // Take care of all GLFW events
         glfwPollEvents();
@@ -154,6 +217,10 @@ int main(){
     EBO_1.Delete();
     objTex.Delete();
     shaderProgram.Delete();
+    lightVAO.Delete();
+    lightVBO.Delete();
+    lightEBO.Delete();
+    lightShader.Delete();
 
     glfwDestroyWindow(window);
     glfwTerminate();
