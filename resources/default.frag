@@ -7,7 +7,7 @@ in vec2 texCoord;
 in vec3 Normal;
 in vec3 worldPos;
 
-uniform sampler2D tex0;
+uniform sampler2D diffuse0;
 uniform vec4 lightColor;
 uniform vec3 lightPos;
 uniform vec3 camPos;
@@ -36,7 +36,7 @@ vec4 pointLight(){
     float specAmnt = pow(max(dot(viewDirection, reflectionDirection), 0.0f), 8);
     float specular = specAmnt * specularLight;
 
-    return (texture(tex0, texCoord)*lightColor*(diffuse*intensity + ambient + specular*intensity));
+    return (texture(diffuse0, texCoord)*lightColor*(diffuse*intensity + ambient + specular*intensity));
 }
 
 vec4 directionalLight(){
@@ -52,7 +52,7 @@ vec4 directionalLight(){
     float specAmnt = pow(max(dot(viewDirection, reflectionDirection), 0.0f), 8);
     float specular = specAmnt * specularLight;
 
-    return (texture(tex0, texCoord)*lightColor*(diffuse + ambient + specular));
+    return (texture(diffuse0, texCoord)*lightColor*(diffuse + ambient + specular));
 
 }
 
@@ -77,10 +77,11 @@ vec4 spotLight()
     float angle = dot(vec3(0.0f, -1.0f, 0.0f), -lightDirection);
     float inten = clamp((angle - outerCone) / (innerCone - outerCone), 0.0f, 1.0f);
 
-    return (texture(tex0, texCoord) * (diffuse * inten + ambient));
+    return (texture(diffuse0, texCoord) * (diffuse * inten + ambient));
 }
 
 void main()
 {
-    FragColor = spotLight();
+    // pointLight, directionalLight or, spotLight
+    FragColor = pointLight();
 }

@@ -1,25 +1,48 @@
-#include <iostream>
-#include <cmath>
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
-
-#include "../headers/shaderClass.h"
-#include "../headers/VAO.h"
-#include "../headers/VBO.h"
-#include "../headers/EBO.h"
-
-// Textures
-//#include "../include/stb/stb_image.h"
-#include "../headers/Texture.h"
-// glm for matrix math
-#include "../include/glm/glm.hpp"
-#include "../include/glm/gtc/matrix_transform.hpp"
-#include "../include/glm/gtc/type_ptr.hpp"
-// Camera
-#include "../headers/Camera.h"
+#include "../headers/Mesh.h"
 
 const int width = 1920;
 const int height = 1080;
+
+Vertex vertices[] =
+        { //               COORDINATES           /            COLORS          /           TexCoord         /       NORMALS         //
+                Vertex{glm::vec3(-1.0f, 0.0f,  1.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(0.0f, 0.0f)},
+                Vertex{glm::vec3(-1.0f, 0.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(0.0f, 1.0f)},
+                Vertex{glm::vec3( 1.0f, 0.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(1.0f, 1.0f)},
+                Vertex{glm::vec3( 1.0f, 0.0f,  1.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(1.0f, 0.0f)}
+        };
+
+GLuint indices[] =
+        {
+                0, 1, 2,
+                0, 2, 3
+        };
+
+Vertex lightVertices[] = {
+        Vertex{glm::vec3(-0.1f, -0.1f,  0.1f)},
+        Vertex{glm::vec3(-0.1f, -0.1f, -0.1f)},
+        Vertex{glm::vec3(0.1f, -0.1f, -0.1f)},
+        Vertex{glm::vec3(0.1f, -0.1f,  0.1f)},
+        Vertex{glm::vec3(-0.1f,  0.1f,  0.1f)},
+        Vertex{glm::vec3(-0.1f,  0.1f, -0.1f)},
+        Vertex{glm::vec3(0.1f,  0.1f, -0.1f)},
+        Vertex{glm::vec3(0.1f,  0.1f,  0.1f)}
+};
+
+GLuint lightIndices[] =
+        {
+                0, 1, 2,
+                0, 2, 3,
+                0, 4, 7,
+                0, 7, 3,
+                3, 7, 6,
+                3, 6, 2,
+                2, 6, 5,
+                2, 5, 1,
+                1, 5, 4,
+                1, 4, 0,
+                4, 5, 6,
+                4, 6, 7
+        };
 
 int main(){
 
@@ -43,105 +66,32 @@ int main(){
     glViewport(0, 0, width, height);
 
     //----------------------------------------------------------------------------------
-    // Define vertices for our object
-    GLfloat vertices[] = { //     COORDINATES     /        COLORS          /    TexCoord   /        NORMALS       //
-            -0.5f, 0.0f,  0.5f,     0.83f, 0.70f, 0.44f, 	 0.0f, 0.0f,      0.0f, -1.0f, 0.0f, // Bottom side
-            -0.5f, 0.0f, -0.5f,     0.83f, 0.70f, 0.44f,	 0.0f, 5.0f,      0.0f, -1.0f, 0.0f, // Bottom side
-            0.5f, 0.0f, -0.5f,     0.83f, 0.70f, 0.44f,	 5.0f, 5.0f,      0.0f, -1.0f, 0.0f, // Bottom side
-            0.5f, 0.0f,  0.5f,     0.83f, 0.70f, 0.44f,	 5.0f, 0.0f,      0.0f, -1.0f, 0.0f, // Bottom side
-
-            -0.5f, 0.0f,  0.5f,     0.83f, 0.70f, 0.44f, 	 0.0f, 0.0f,     -0.8f, 0.5f,  0.0f, // Left Side
-            -0.5f, 0.0f, -0.5f,     0.83f, 0.70f, 0.44f,	 5.0f, 0.0f,     -0.8f, 0.5f,  0.0f, // Left Side
-            0.0f, 0.8f,  0.0f,     0.92f, 0.86f, 0.76f,	 2.5f, 5.0f,     -0.8f, 0.5f,  0.0f, // Left Side
-
-            -0.5f, 0.0f, -0.5f,     0.83f, 0.70f, 0.44f,	 5.0f, 0.0f,      0.0f, 0.5f, -0.8f, // Non-facing side
-            0.5f, 0.0f, -0.5f,     0.83f, 0.70f, 0.44f,	 0.0f, 0.0f,      0.0f, 0.5f, -0.8f, // Non-facing side
-            0.0f, 0.8f,  0.0f,     0.92f, 0.86f, 0.76f,	 2.5f, 5.0f,      0.0f, 0.5f, -0.8f, // Non-facing side
-
-            0.5f, 0.0f, -0.5f,     0.83f, 0.70f, 0.44f,	 0.0f, 0.0f,      0.8f, 0.5f,  0.0f, // Right side
-            0.5f, 0.0f,  0.5f,     0.83f, 0.70f, 0.44f,	 5.0f, 0.0f,      0.8f, 0.5f,  0.0f, // Right side
-            0.0f, 0.8f,  0.0f,     0.92f, 0.86f, 0.76f,	 2.5f, 5.0f,      0.8f, 0.5f,  0.0f, // Right side
-
-            0.5f, 0.0f,  0.5f,     0.83f, 0.70f, 0.44f,	 5.0f, 0.0f,      0.0f, 0.5f,  0.8f, // Facing side
-            -0.5f, 0.0f,  0.5f,     0.83f, 0.70f, 0.44f, 	 0.0f, 0.0f,      0.0f, 0.5f,  0.8f, // Facing side
-            0.0f, 0.8f,  0.0f,     0.92f, 0.86f, 0.76f,	 2.5f, 5.0f,      0.0f, 0.5f,  0.8f  // Facing side
-    };
-
-    GLuint indices[] = {
-
-            0, 1, 2, // Bottom side
-            0, 2, 3, // Bottom side
-            4, 6, 5, // Left side
-            7, 9, 8, // Non-facing side
-            10, 12, 11, // Right side
-            13, 15, 14 // Facing side
-    };
-
-    GLfloat lightVertices[] = {
-            -0.1f, -0.1f,  0.1f,
-            -0.1f, -0.1f, -0.1f,
-            0.1f, -0.1f, -0.1f,
-            0.1f, -0.1f,  0.1f,
-            -0.1f,  0.1f,  0.1f,
-            -0.1f,  0.1f, -0.1f,
-            0.1f,  0.1f, -0.1f,
-            0.1f,  0.1f,  0.1f
-    };
-
-    GLuint lightIndices[] =
+    // Texture -------------------------------------------------------------------------
+    Texture textures[]
             {
-                    0, 1, 2,
-                    0, 2, 3,
-                    0, 4, 7,
-                    0, 7, 3,
-                    3, 7, 6,
-                    3, 6, 2,
-                    2, 6, 5,
-                    2, 5, 1,
-                    1, 5, 4,
-                    1, 4, 0,
-                    4, 5, 6,
-                    4, 6, 7
+                    Texture("../resources/Textures/meme_cat.png", "diffuse", 0, GL_RGBA, GL_UNSIGNED_BYTE)
             };
 
     //----------------------------------------------------------------------------------
     // link shaders to shader program
     Shader shaderProgram("../resources/default.vert", "../resources/default.frag");
-    // VAO, VBO & EBO
-    VAO VAO_1;
-    VAO_1.Bind();
+    std::vector <Vertex> verts(vertices, vertices + sizeof(vertices) / sizeof(Vertex));
+    std::vector <GLuint> ind(indices, indices + sizeof(indices) / sizeof(GLuint));
+    std::vector <Texture> tex(textures, textures + sizeof(textures) / sizeof(Texture));
 
-    VBO VBO_1(vertices, sizeof(vertices));
-    EBO EBO_1(indices, sizeof(indices));
-
-    VAO_1.LinkAttrib(VBO_1, 0, 3, GL_FLOAT, 11*sizeof(float ), (void*)0);
-    VAO_1.LinkAttrib(VBO_1, 1, 3, GL_FLOAT, 11*sizeof(float ), (void*)(3*sizeof(float)));
-    VAO_1.LinkAttrib(VBO_1, 2, 2, GL_FLOAT, 11*sizeof(float ), (void*)(6*sizeof(float)));
-    VAO_1.LinkAttrib(VBO_1, 3, 3, GL_FLOAT, 11 * sizeof(float), (void*)(8 * sizeof(float)));
-
-    VAO_1.Unbind();
-    VBO_1.Unbind();
-    EBO_1.Unbind();
 
     GLint scaleID = glGetUniformLocation(shaderProgram.ID, "scale");
+    // Create floor mesh
+    Mesh floor(verts, ind, tex);
 
-    // Light Source --------------------------------------------------------------------
-
+    // Light Data-----------------------------------------------------------------------
     Shader lightShader("../resources/light.vert", "../resources/light.frag");
-    VAO lightVAO;
-    lightVAO.Bind();
+    std::vector <Vertex> lightVerts(lightVertices, lightVertices + sizeof(lightVertices) / sizeof(Vertex));
+    std::vector <GLuint> lightInd(lightIndices, lightIndices + sizeof(lightIndices) / sizeof(GLuint));
 
-    VBO lightVBO(lightVertices, sizeof(lightVertices));
-    EBO lightEBO(lightIndices, sizeof(lightIndices));
-
-    lightVAO.LinkAttrib(lightVBO, 0, 3, GL_FLOAT, 3*sizeof(float), (void*)0);
-
-    lightVAO.Unbind();
-    lightVBO.Unbind();
-    lightEBO.Unbind();
-
+    // Crate light mesh
+    Mesh light(lightVerts, lightInd, tex);
     // --------------------------------------------------------------------------------
-    // light source & object-----------------------------------------------------------
 
     glm::vec4 lightColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
     glm::vec3 lightPos = glm::vec3 (0.0f, 1.3f, 0.0f);
@@ -160,9 +110,7 @@ int main(){
     glUniform4f(glGetUniformLocation(shaderProgram.ID, "lightColor"), lightColor.x, lightColor.y, lightColor.z, lightColor.w);
     glUniform3f(glGetUniformLocation(shaderProgram.ID, "lightPos"), lightPos.x, lightPos.y, lightPos.z);
 
-    // Texture ------------------------------------------------------------------------
-    Texture objTex("../resources/Textures/wall.jpg", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGB, GL_UNSIGNED_BYTE);
-    objTex.texUnit(shaderProgram, "tex0", 0);
+
 
     // Fix for the Texture glitch
     glEnable(GL_DEPTH_TEST);
@@ -185,25 +133,12 @@ int main(){
         camera.MouseInputs(window);
         camera.UpdateMatrix(fov, 0.1f, 100.0f);
 
-        shaderProgram.Activate();
-        // Exports the camera Position to the Fragment Shader for specular lighting
-        camera.Matrix(shaderProgram, "camMatrix");
-
+        // Scaling the geometry
         glUniform1f(scaleID, 0.5);
-        objTex.Bind();
-        VAO_1.Bind();
 
-        // Specular lighting
-        glUniform3f(glGetUniformLocation(shaderProgram.ID, "camPos"), camera.camPosition.x, camera.camPosition.y, camera.camPosition.z);
-
-        // while drawing, we must provide opengl hint on how to render (line, points,
-        // or fill with triangles) these points, this is called "primitives".
-        glDrawElements(GL_TRIANGLES, sizeof(indices)/ sizeof(int), GL_UNSIGNED_INT, 0);
-
-        lightShader.Activate();
-        camera.Matrix(lightShader, "camMatrix");
-        lightVAO.Bind();
-        glDrawElements(GL_TRIANGLES, sizeof(lightIndices)/ sizeof(int), GL_UNSIGNED_INT, 0);
+        // Draws different meshes
+        floor.Draw(shaderProgram, camera);
+        light.Draw(lightShader, camera);
 
         // Swap back buffer with the front buffer
         glfwSwapBuffers(window);
@@ -211,15 +146,7 @@ int main(){
         glfwPollEvents();
     }
 
-    // Delete all the buffer objects
-    VAO_1.Delete();
-    VBO_1.Delete();
-    EBO_1.Delete();
-    objTex.Delete();
     shaderProgram.Delete();
-    lightVAO.Delete();
-    lightVBO.Delete();
-    lightEBO.Delete();
     lightShader.Delete();
 
     glfwDestroyWindow(window);
