@@ -52,7 +52,7 @@ void Camera::KeyInputs(GLFWwindow *window)
         camPosition += speed * up;
     }
 
-    if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS)
+    if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
     {
         camPosition += speed * -up;
     }
