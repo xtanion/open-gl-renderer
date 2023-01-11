@@ -53,7 +53,7 @@ int main(){
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 
-    GLFWwindow* window = glfwCreateWindow(width, height, "square", nullptr, nullptr);
+    GLFWwindow* window = glfwCreateWindow(width, height, "Renderer", nullptr, nullptr);
     if(window==nullptr)
     {
         std::cout << "Failed to create window" << std::endl;
@@ -142,7 +142,7 @@ int main(){
 
         // Swap back buffer with the front buffer
         glfwSwapBuffers(window);
-        // Take care of all GLFW events
+        // Take care of all GLFW events (resize, refreshing, etc)
         glfwPollEvents();
     }
 
